@@ -3,7 +3,8 @@ local M = {}
 local Log = require "lvim.core.log"
 local fmt = string.format
 local lvim_lsp_utils = require "lvim.lsp.utils"
-local is_windows = vim.loop.os_uname().version:match "Windows"
+local uv = vim.uv or vim.loop
+local is_windows = uv.os_uname().version:match "Windows"
 
 local function resolve_mason_config(server_name)
   local found, mason_config = pcall(require, "mason-lspconfig.server_configurations." .. server_name)
