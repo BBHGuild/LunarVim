@@ -63,17 +63,6 @@ M.load_default_options = function()
     vim.opt[k] = v
   end
 
-  vim.filetype.add {
-    extension = {
-      tex = "tex",
-      zir = "zir",
-      cr = "crystal",
-    },
-    pattern = {
-      ["[jt]sconfig.*.json"] = "jsonc",
-    },
-  }
-
   local default_diagnostic_config = {
     signs = {
       active = true,
@@ -101,15 +90,31 @@ M.load_default_options = function()
   vim.diagnostic.config(default_diagnostic_config)
 end
 
+M.setup_filetypes = function()
+  vim.filetype.add {
+    extension = {
+      tex = "tex",
+      zir = "zir",
+      cr = "crystal",
+      trace = "evm_trace",
+      traces = "evm_trace",
+    },
+    pattern = {
+      ["[jt]sconfig.*.json"] = "jsonc",
+      [".*%.sol%.trace"] = "evm_trace",
+    },
+  }
+end
+
 M.load_headless_options = function()
   vim.opt.shortmess = "" -- try to prevent echom from cutting messages off or prompting
   vim.opt.more = false -- don't pause listing when screen is filled
-  vim.opt.cmdheight = 9999 -- helps avoiding |hit-enter| prompts.
-  vim.opt.columns = 9999 -- set the widest screen possible
+  vim.opt.cmdheight = 1 -- helps avoiding |hit-enter| prompts without exceeding window height
   vim.opt.swapfile = false -- don't use a swap file
 end
 
 M.load_defaults = function()
+  M.setup_filetypes()
   if #vim.api.nvim_list_uis() == 0 then
     M.load_headless_options()
     return
