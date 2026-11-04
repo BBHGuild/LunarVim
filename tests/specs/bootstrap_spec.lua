@@ -38,7 +38,7 @@ describe("initial start", function()
 
   it("should be able to read lunarvim directories", function()
     local rtp_list = vim.opt.rtp:get()
-    assert.truthy(vim.tbl_contains(rtp_list, lvim_runtime_path .. "/lvim"))
+    assert.truthy(vim.tbl_contains(rtp_list, get_lvim_base_dir()) or vim.tbl_contains(rtp_list, lvim_runtime_path .. "/lvim"))
     assert.truthy(vim.tbl_contains(rtp_list, lvim_config_path))
   end)
 

@@ -7,7 +7,7 @@ local core_plugins = {
     dependencies = { "mason-lspconfig.nvim", "nlsp-settings.nvim" },
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     cmd = { "LspInstall", "LspUninstall" },
     config = function()
       require("mason-lspconfig").setup(lvim.lsp.installer.setup)
@@ -23,7 +23,7 @@ local core_plugins = {
   { "tamago324/nlsp-settings.nvim", cmd = "LspSettings", lazy = true },
   { "nvimtools/none-ls.nvim", lazy = true },
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     config = function()
       require("lvim.core.mason").setup()
     end,
@@ -49,7 +49,7 @@ local core_plugins = {
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    branch = "master",
     config = function()
       require("lvim.core.telescope").setup()
     end,
@@ -128,6 +128,7 @@ local core_plugins = {
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     -- run = ":TSUpdate",
     config = function()
       local utils = require "lvim.utils"

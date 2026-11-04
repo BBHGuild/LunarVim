@@ -30,7 +30,7 @@
     "commit": "05a9ab2"
   },
   "friendly-snippets": {
-    "commit": "dd2fd12"
+    "commit": "b2ea5c4"
   },
   "gitsigns.nvim": {
     "commit": "805610a"
@@ -87,13 +87,13 @@
     "commit": "2bc725a"
   },
   "nvim-treesitter": {
-    "commit": "30de5e7"
+    "commit": "cf12346"
   },
   "nvim-ts-context-commentstring": {
     "commit": "cb06438"
   },
   "nvim-web-devicons": {
-    "commit": "e37bb1f"
+    "commit": "ec309a0"
   },
   "onedarker.nvim": {
     "commit": "b00dd21"
@@ -105,7 +105,7 @@
     "commit": "8c6bad7"
   },
   "schemastore.nvim": {
-    "commit": "9a5992a"
+    "commit": "a7a4000"
   },
   "structlog.nvim": {
     "commit": "45b26a2"
@@ -114,7 +114,7 @@
     "commit": "9ef21b2"
   },
   "telescope.nvim": {
-    "commit": "d829aa6"
+    "commit": "a17d611"
   },
   "toggleterm.nvim": {
     "commit": "fee58a0"
