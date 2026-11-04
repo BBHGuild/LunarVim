@@ -31,20 +31,28 @@ or open the which-key menu by pressing `<leader>` and pausing.
 
 | Key | Mode | Description |
 | :--- | :--- | :--- |
-| `<S-l>` | Normal | Switch to next buffer |
-| `<S-h>` | Normal | Switch to previous buffer |
-| `<leader>b` | Normal | Open buffer menu |
+| `<S-l>` / `L` | Normal | Switch to next buffer |
+| `<S-h>` / `H` | Normal | Switch to previous buffer |
+| `]b` | Normal | Jump to next buffer |
+| `[b` | Normal | Jump to previous buffer |
+| `<leader>b` | Normal | Open buffer menu in Which-Key |
 
 ---
 
 ## Window Management & Navigation
 
+All window navigation is engineered to be conflict-free with host IDE shortcuts (such as Antigravity 2.0).
+
 | Key | Mode | Description |
 | :--- | :--- | :--- |
-| `<C-h>` | Normal | Move cursor to left split |
-| `<C-j>` | Normal | Move cursor to lower split |
-| `<C-k>` | Normal | Move cursor to upper split |
-| `<C-l>` | Normal | Move cursor to right split |
+| `]w` | Normal | Cycle to next window |
+| `[w` | Normal | Cycle to previous window |
+| `<leader>W` | Normal | Open Window menu in Which-Key (`h`, `j`, `k`, `l`, `s`, `v`, `c`, `o`, `=`) |
+| `<C-w>h` | Normal / Term | Move cursor to left window |
+| `<C-w>j` | Normal / Term | Move cursor to lower window |
+| `<C-w>k` | Normal / Term | Move cursor to upper window |
+| `<C-w>l` | Normal / Term | Move cursor to right window |
+| `<C-w>w` | Normal / Term | Cycle to next window |
 | `<C-Up>` | Normal | Resize split height (-2) |
 | `<C-Down>` | Normal | Resize split height (+2) |
 | `<C-Left>` | Normal | Resize split width (-2) |

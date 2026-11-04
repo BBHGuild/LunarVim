@@ -308,6 +308,20 @@ M.config = function()
         name = "Treesitter",
         i = { ":TSConfigInfo<cr>", "Info" },
       },
+      W = {
+        name = "Window",
+        h = { "<C-w>h", "Move to left window" },
+        j = { "<C-w>j", "Move to lower window" },
+        k = { "<C-w>k", "Move to upper window" },
+        l = { "<C-w>l", "Move to right window" },
+        w = { "<C-w>w", "Cycle to next window" },
+        p = { "<C-w>p", "Previous window" },
+        s = { "<cmd>split<cr>", "Split horizontal" },
+        v = { "<cmd>vsplit<cr>", "Split vertical" },
+        c = { "<cmd>close<cr>", "Close window" },
+        o = { "<cmd>only<cr>", "Close other windows" },
+        ["="] = { "<C-w>=", "Balance windows" },
+      },
     },
   }
 end

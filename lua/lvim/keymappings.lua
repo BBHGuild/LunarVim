@@ -39,19 +39,19 @@ local defaults = {
     ["<A-j>"] = "<Esc>:m .+1<CR>==gi",
     -- Move current line / block with Alt-j/k ala vscode.
     ["<A-k>"] = "<Esc>:m .-2<CR>==gi",
-    -- navigation
-    ["<A-Up>"] = "<C-\\><C-N><C-w>k",
-    ["<A-Down>"] = "<C-\\><C-N><C-w>j",
-    ["<A-Left>"] = "<C-\\><C-N><C-w>h",
-    ["<A-Right>"] = "<C-\\><C-N><C-w>l",
   },
 
   normal_mode = {
-    -- Better window movement
-    ["<C-h>"] = "<C-w>h",
-    ["<C-j>"] = "<C-w>j",
-    ["<C-k>"] = "<C-w>k",
-    ["<C-l>"] = "<C-w>l",
+    -- Window navigation (conflict-free with Antigravity 2.0 host IDE shortcuts)
+    -- Native <C-w>h/j/k/l is preserved. Bracket mappings cycle windows:
+    ["]w"] = "<C-w>w",
+    ["[w"] = "<C-w>W",
+
+    -- Buffer navigation (Shift-h/l and bracket navigation)
+    ["<S-l>"] = "<cmd>lua if pcall(vim.cmd, 'BufferLineCycleNext') then else vim.cmd('bnext') end<CR>",
+    ["<S-h>"] = "<cmd>lua if pcall(vim.cmd, 'BufferLineCyclePrev') then else vim.cmd('bprevious') end<CR>",
+    ["]b"] = ":bnext<CR>",
+    ["[b"] = ":bprevious<CR>",
 
     -- Resize with arrows
     ["<C-Up>"] = ":resize -2<CR>",
@@ -70,11 +70,14 @@ local defaults = {
   },
 
   term_mode = {
-    -- Terminal window navigation
-    ["<C-h>"] = "<C-\\><C-N><C-w>h",
-    ["<C-j>"] = "<C-\\><C-N><C-w>j",
-    ["<C-k>"] = "<C-\\><C-N><C-w>k",
-    ["<C-l>"] = "<C-\\><C-N><C-w>l",
+    -- Terminal window navigation (safe with Antigravity 2.0)
+    ["<C-w>h"] = "<C-\\><C-N><C-w>h",
+    ["<C-w>j"] = "<C-\\><C-N><C-w>j",
+    ["<C-w>k"] = "<C-\\><C-N><C-w>k",
+    ["<C-w>l"] = "<C-\\><C-N><C-w>l",
+    ["<C-w>w"] = "<C-\\><C-N><C-w>w",
+    ["<C-w>c"] = "<C-\\><C-N><C-w>c",
+    ["<C-w>p"] = "<C-\\><C-N><C-w>p",
   },
 
   visual_mode = {
@@ -92,17 +95,10 @@ local defaults = {
     ["<A-k>"] = ":m '<-2<CR>gv-gv",
   },
 
-  command_mode = {
-    -- navigate tab completion with <c-j> and <c-k>
-    -- runs conditionally
-    ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true } },
-    ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true } },
-  },
+  command_mode = {},
 }
 
 if vim.fn.has "mac" == 1 then
-  defaults.normal_mode["<A-Up>"] = defaults.normal_mode["<C-Up>"]
-  defaults.normal_mode["<A-Down>"] = defaults.normal_mode["<C-Down>"]
   defaults.normal_mode["<A-Left>"] = defaults.normal_mode["<C-Left>"]
   defaults.normal_mode["<A-Right>"] = defaults.normal_mode["<C-Right>"]
   Log:debug "Activated mac keymappings"
