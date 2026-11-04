@@ -58,6 +58,7 @@ local skipped_servers = {
   "snyk_ls",
   "solang",
   "solc",
+  "solidity",
   "solidity_ls",
   "solidity_ls_nomicfoundation",
   "sorbet",
