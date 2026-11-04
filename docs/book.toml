@@ -1,0 +1,10 @@
+[book]
+title = "LunarVim Documentation"
+authors = ["LunarVim Contributors"]
+language = "en"
+src = "src"
+
+[output.html]
+git-repository-url = "https://github.com/BBHGuild/LunarVim"
+default-theme = "navy"
+preferred-dark-theme = "navy"
