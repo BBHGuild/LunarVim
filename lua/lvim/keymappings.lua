@@ -34,6 +34,7 @@ local mode_adapters = {
 
 local defaults = {
   insert_mode = {
+    ["jj"] = "<Esc>",
     -- Move current line / block with Alt-j/k ala vscode.
     ["<A-j>"] = "<Esc>:m .+1<CR>==gi",
     -- Move current line / block with Alt-j/k ala vscode.
