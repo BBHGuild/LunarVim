@@ -103,6 +103,7 @@ function M:reload()
     plugin_loader.reload { plugins, lvim.plugins }
     reload("lvim.core.theme").setup()
     reload("lvim.utils.hooks").run_post_reload()
+    vim.notify("Configuration reloaded", vim.log.levels.INFO)
   end)
 end
 
