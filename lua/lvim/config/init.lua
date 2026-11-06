@@ -104,6 +104,7 @@ function M:reload()
     reload("lvim.core.theme").setup()
     reload("lvim.utils.hooks").run_post_reload()
     vim.notify("Configuration reloaded", vim.log.levels.INFO)
+    vim.api.nvim_echo({ { "✓ LunarVim: Configuration reloaded successfully!", "DiagnosticOk" } }, true, {})
   end)
 end
 
