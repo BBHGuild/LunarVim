@@ -29,9 +29,44 @@ foundryup
 
 ---
 
-## EVM Trace LSP (`trace-lsp`)
+## EVM Trace LSP & Trace Generation
 
-LunarVim also supports `trace-lsp` for navigating and inspecting EVM execution traces, call stacks, and reverts when debugging transactions and smart contract test failures.
+### Running Tests & Generating Traces (`:ForgeTraceMethod`)
+
+LunarVim includes an integrated task runner replicating the Zed trace pipeline:
+- **Command**: `:ForgeTraceMethod`
+- **Keybindings**: `<leader>tt` or `<leader>tr`
+
+When your cursor is positioned inside or hovering over any test function (e.g., `test_deposit()`):
+1. **Context Detection**: Uses Treesitter AST to extract the active test method and enclosing contract name.
+2. **Execution**: Sources `.env` (if present) and runs:
+   ```bash
+   forge test --mp <file> --mc <contract> --mt <test_method> -vvvvv --decode-internal 2>&1 | tee <test_dir>/tx-trace-test.trace
+   ```
+3. **Clipboard Sync**: Copies the test function name to your system clipboard (`+` register / `wl-copy`).
+4. **Buffer Navigation**: Creates `tx-trace-test.trace` directly in the test file's folder and automatically opens it in LunarVim for immediate inspection.
+
+### High-Contrast Hover Popups (`K`)
+
+Hover popups (`K` on any function, contract, or trace call) are rendered with:
+- **Rounded Emerald Borders**: Styled with the theme's accent color (`#7de486` in Dark, `#059669` in Light) so the popup boundary is clearly delineated.
+- **Solid Window Background**: Floating window uses a distinct background (`#1b1b1b` / `#ffffff`) to ensure popup text never blends into the underlying buffer.
+
+---
+
+## Bottom Symbol Outline Dock
+
+Press **`<leader>O`** or **`Alt-o`** to toggle a bottom-docked hierarchical symbol outline panel powered by Trouble.
+
+### Sibling Tree Folding Controls
+When the symbol outline dock is focused:
+- **`s`**: **Accordion / Solo Toggle** — opens the current symbol and collapses all its sibling trees.
+- **`C`**: **Collapse Siblings** — collapses all sibling trees at the current hierarchy level.
+- **`S`**: **Expand Siblings** — expands all sibling trees at the current hierarchy level.
+- **`E`**: **Recursive Expand** — recursively expands all sibling trees and sub-children.
+- **`h`** / **`l`**: Close / open the selected node.
+- **`<Tab>`** / **`<Space>`** / **`o`**: Toggle fold open/closed.
+- **`zM`** / **`zR`**: Collapse all / expand all symbols across the entire file.
 
 ---
 

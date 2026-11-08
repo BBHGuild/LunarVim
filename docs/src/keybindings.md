@@ -45,6 +45,10 @@ All window navigation is engineered to be conflict-free with host IDE shortcuts 
 
 | Key | Mode | Description |
 | :--- | :--- | :--- |
+| `Alt-h` (`<M-h>`) | Normal / Term / Insert | Move cursor to left window |
+| `Alt-j` (`<M-j>`) | Normal / Term / Insert | Move cursor to lower window |
+| `Alt-k` (`<M-k>`) | Normal / Term / Insert | Move cursor to upper window |
+| `Alt-l` (`<M-l>`) | Normal / Term / Insert | Move cursor to right window |
 | `]w` | Normal | Cycle to next window |
 | `[w` | Normal | Cycle to previous window |
 | `<leader>W` | Normal | Open Window menu in Which-Key (`h`, `j`, `k`, `l`, `s`, `v`, `c`, `o`, `=`) |
@@ -57,6 +61,28 @@ All window navigation is engineered to be conflict-free with host IDE shortcuts 
 | `<C-Down>` | Normal | Resize split height (+2) |
 | `<C-Left>` | Normal | Resize split width (-2) |
 | `<C-Right>` | Normal | Resize split width (+2) |
+
+---
+
+## Symbol Outline Dock & Trace Tools
+
+| Key | Mode | Action |
+| :--- | :--- | :--- |
+| `<leader>O` | Normal | Toggle bottom symbol outline dock (`Trouble symbols`) |
+| `Alt-o` (`<M-o>`) | Normal | Toggle bottom symbol outline dock |
+| `<leader>tt` / `<leader>tr` | Normal | Run Forge test for hovered method and create `tx-trace-test.trace` |
+
+### Symbol Outline Dock Keys (when dock is focused)
+| Key | Action | Description |
+| :--- | :--- | :--- |
+| `s` | Accordion Solo | Open selected node and collapse all its siblings |
+| `C` | Collapse Siblings | Collapse all sibling trees at current level |
+| `S` | Expand Siblings | Expand all sibling trees at current level |
+| `E` | Recursive Expand | Recursively expand all sibling trees and sub-children |
+| `h` / `l` | Close / Open | Close or open selected node |
+| `<Tab>` / `<Space>` / `o` | Toggle | Toggle fold state of current node |
+| `zM` / `zR` | Close / Open All | Collapse or expand entire symbol hierarchy |
+| `<CR>` | Jump | Jump directly to symbol in active buffer |
 
 ---
 
