@@ -31,7 +31,11 @@ local opts = {
   on_attach = function(client, bufnr)
     require("lvim.lsp").common_on_attach(client, bufnr)
     if client.server_capabilities.semanticTokensProvider then
-      pcall(vim.lsp.semantic_tokens.start, bufnr, client.id)
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(bufnr) and vim.lsp.buf_is_attached(bufnr, client.id) then
+          pcall(vim.lsp.semantic_tokens.start, bufnr, client.id)
+        end
+      end)
     end
   end,
 }
