@@ -58,6 +58,10 @@ Hover popups (`K` on any function, contract, or trace call) are rendered with:
 
 Press **`<leader>O`** or **`Alt-o`** to toggle a bottom-docked hierarchical symbol outline panel powered by Trouble.
 
+### Tree-sitter Syntax Highlighting & Formatting
+- **Tree-sitter Syntax Highlighted**: Each outline row is parsed through the active buffer's Tree-sitter grammar (`{text:ts}`), providing full keyword, type, contract, and argument colorization directly in the symbol dock.
+- **De-duplicated Labels**: Eliminates redundant duplicate function names by cleanly showing the syntax-highlighted call signature and parameters without repeat identifier prefixes.
+
 ### Sibling Tree Folding Controls
 When the symbol outline dock is focused:
 - **`s`**: **Accordion / Solo Toggle** — opens the current symbol and collapses all its sibling trees.
