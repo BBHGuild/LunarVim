@@ -58,9 +58,6 @@ Hover popups (`K` on any function, contract, or trace call) are rendered with:
 
 Press **`<leader>O`** or **`Alt-o`** to toggle a bottom-docked hierarchical symbol outline panel powered by Trouble. Toggling the dock **automatically focuses the cursor inside the symbol outline** (`focus = true`).
 
-### Active Red Focus Frame & Exclusive Cursorline
-- **Crimson Focus Surround**: The currently focused pane displays a bold red top frame (`┏━━ ● ACTIVE │ <Pane Title> ━━━┓`), a continuous red vertical left border (`┃`), and bold red split separators (`━` / `┃`), while unfocused panes display a muted gray `┌── ○ INACTIVE` header.
-- **Single Active Cursorline**: Only the focused pane renders an active `CursorLine` and bold red `CursorLineNr`. Unfocused panes automatically suppress their `CursorLine` so two cursorlines never compete visually.
 - **Smart Quit (`<Space>q` / `q`)**: Pressing `q` or `<Space>q` inside the symbol outline closes the dock and returns focus cleanly to the main editor. Pressing `<Space>q` in the last open code editor window automatically closes auxiliary sidebars/docks and exits LunarVim cleanly instead of leaving orphaned panels open.
 
 ### Tree-sitter Syntax Highlighting & Formatting
