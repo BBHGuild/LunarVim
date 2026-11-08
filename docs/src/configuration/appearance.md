@@ -14,9 +14,26 @@ lvim.colorscheme = "lunar"
 
 Common built-in colorschemes:
 - `lunar` (Default)
+- `xy-zed` / `xy-zed-dark` / `xy-zed-light` (Zed-inspired theme with emerald green accents)
 - `tokyonight` / `tokyonight-night` / `tokyonight-storm` / `tokyonight-day`
 - `onedarker`
 - `desert`
+
+### XY-Zed Colorscheme
+
+LunarVim includes the `xy-zed` theme ported directly from the Zed editor design system with full support for both Dark and Light variants:
+
+```lua
+-- Automatically matches vim.o.background ("dark" or "light")
+lvim.colorscheme = "xy-zed"
+
+-- Or explicitly select a variant:
+lvim.colorscheme = "xy-zed-dark"
+-- lvim.colorscheme = "xy-zed-light"
+
+-- Match statusline to xy-zed theme
+lvim.builtin.lualine.options.theme = "xy-zed"
+```
 
 You can test installed colorschemes interactively by pressing `<leader>sc` (Telescope colorschemes) or `<leader>sp` (with real-time live preview).
 
