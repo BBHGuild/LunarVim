@@ -92,7 +92,7 @@ end
 ---@param server_name string name of the language server
 ---@param user_config table? when available it will take predence over any default configurations
 function M.setup(server_name, user_config)
-  vim.validate { name = { server_name, "string" } }
+  vim.validate("name", server_name, "string")
   user_config = user_config or {}
 
   if lvim_lsp_utils.is_client_active(server_name) or client_is_configured(server_name) then

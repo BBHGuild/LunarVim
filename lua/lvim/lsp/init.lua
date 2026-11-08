@@ -61,6 +61,20 @@ function M.common_on_init(client, bufnr)
 end
 
 function M.common_on_attach(client, bufnr)
+  if client and not client._lvim_wrapped then
+    client._lvim_wrapped = true
+    for _, method in ipairs { "request", "notify", "cancel_request", "stop", "is_stopped", "supports_method" } do
+      local orig = client[method]
+      if type(orig) == "function" then
+        client[method] = function(arg1, ...)
+          if arg1 == client then
+            return orig(arg1, ...)
+          end
+          return orig(client, arg1, ...)
+        end
+      end
+    end
+  end
   if lvim.lsp.on_attach_callback then
     lvim.lsp.on_attach_callback(client, bufnr)
     Log:debug "Called lsp.on_attach_callback"
@@ -95,8 +109,30 @@ function M.setup()
   end
 
   if lvim.use_icons then
+    local severity_map = {
+      DiagnosticSignError = vim.diagnostic.severity.ERROR,
+      DiagnosticSignWarn = vim.diagnostic.severity.WARN,
+      DiagnosticSignHint = vim.diagnostic.severity.HINT,
+      DiagnosticSignInfo = vim.diagnostic.severity.INFO,
+    }
+    local signs_text = {}
+    local signs_texthl = {}
+    local signs_numhl = {}
     for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
-      vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+      local sev = severity_map[sign.name]
+      if sev then
+        signs_text[sev] = sign.text
+        signs_texthl[sev] = sign.name
+        signs_numhl[sev] = sign.name
+      end
+    end
+    if not vim.tbl_isempty(signs_text) then
+      local current_signs = vim.tbl_get(vim.diagnostic.config(), "signs")
+      local signs_cfg = type(current_signs) == "table" and vim.deepcopy(current_signs) or {}
+      signs_cfg.text = vim.tbl_extend("keep", signs_cfg.text or {}, signs_text)
+      signs_cfg.texthl = vim.tbl_extend("keep", signs_cfg.texthl or {}, signs_texthl)
+      signs_cfg.numhl = vim.tbl_extend("keep", signs_cfg.numhl or {}, signs_numhl)
+      vim.diagnostic.config { signs = signs_cfg }
     end
   end
 

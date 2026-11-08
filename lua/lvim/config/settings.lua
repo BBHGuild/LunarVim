@@ -66,6 +66,12 @@ M.load_default_options = function()
   local default_diagnostic_config = {
     signs = {
       active = true,
+      text = {
+        [vim.diagnostic.severity.ERROR] = lvim.icons.diagnostics.Error,
+        [vim.diagnostic.severity.WARN] = lvim.icons.diagnostics.Warning,
+        [vim.diagnostic.severity.HINT] = lvim.icons.diagnostics.Hint,
+        [vim.diagnostic.severity.INFO] = lvim.icons.diagnostics.Information,
+      },
       values = {
         { name = "DiagnosticSignError", text = lvim.icons.diagnostics.Error },
         { name = "DiagnosticSignWarn", text = lvim.icons.diagnostics.Warning },

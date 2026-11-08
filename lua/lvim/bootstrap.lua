@@ -63,6 +63,96 @@ function M:init(base_dir)
   self.pack_dir = join_paths(self.runtime_dir, "site", "pack")
   self.lazy_install_dir = join_paths(self.pack_dir, "lazy", "opt", "lazy.nvim")
 
+  -- Neovim 0.10/0.11+ compatibility layer for third-party plugins
+  local type_aliases = {
+    b = "boolean",
+    c = "callable",
+    f = "function",
+    n = "number",
+    s = "string",
+    t = "table",
+  }
+  local orig_validate = vim.validate
+  ---@diagnostic disable-next-line: duplicate-set-field
+  vim.validate = function(name, value, validator, optional, message)
+    if validator ~= nil then
+      return orig_validate(name, value, validator, optional, message)
+    elseif type(name) == "table" then
+      for k, spec in pairs(name) do
+        if type(spec) == "table" then
+          local v_type = spec[2]
+          if type(v_type) == "string" then
+            v_type = type_aliases[v_type] or v_type
+          elseif type(v_type) == "table" then
+            local mapped = {}
+            for i, t in ipairs(v_type) do
+              mapped[i] = type_aliases[t] or t
+            end
+            v_type = mapped
+          end
+          orig_validate(k, spec[1], v_type, spec[3], spec[4])
+        end
+      end
+      return
+    end
+    return orig_validate(name, value, validator, optional, message)
+  end
+  if vim.islist then
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.tbl_islist = vim.islist
+  end
+  if vim.iter then
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.tbl_flatten = function(t)
+      return vim.iter(t):flatten(math.huge):totable()
+    end
+  end
+  if vim.lsp and vim.lsp.get_clients then
+    if vim.lsp.start then
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.lsp.start_client = function(config)
+        return vim.lsp.start(config, {
+          attach = false,
+          reuse_client = function()
+            return false
+          end,
+        })
+      end
+    end
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.lsp.get_active_clients = vim.lsp.get_clients
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.lsp.buf_get_clients = function(bufnr)
+      local result = {}
+      for _, client in ipairs(vim.lsp.get_clients { bufnr = bufnr or vim.api.nvim_get_current_buf() }) do
+        result[client.id] = client
+      end
+      return result
+    end
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.lsp.for_each_buffer_client = function(bufnr, fn)
+      for _, client in ipairs(vim.lsp.get_clients { bufnr = bufnr }) do
+        fn(client, client.id, bufnr)
+      end
+    end
+  end
+  if vim.diagnostic and vim.diagnostic.is_enabled then
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.diagnostic.is_disabled = function(opts, namespace)
+      if type(opts) == "number" then
+        return not vim.diagnostic.is_enabled { bufnr = opts, ns_id = namespace }
+      elseif type(opts) == "table" then
+        return not vim.diagnostic.is_enabled(opts)
+      else
+        return not vim.diagnostic.is_enabled()
+      end
+    end
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.diagnostic.disable = function(bufnr, namespace)
+      vim.diagnostic.enable(false, { bufnr = bufnr, ns_id = namespace })
+    end
+  end
+
   ---@meta overridden to use LUNARVIM_CACHE_DIR instead, since a lot of plugins call this function internally
   ---NOTE: changes to "data" are currently unstable, see #2507
   ---@diagnostic disable-next-line: duplicate-set-field

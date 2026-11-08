@@ -221,11 +221,11 @@ M.config = function()
         i = { "<cmd>LspInfo<cr>", "Info" },
         I = { "<cmd>Mason<cr>", "Mason Info" },
         j = {
-          "<cmd>lua vim.diagnostic.goto_next()<cr>",
+          "<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>",
           "Next Diagnostic",
         },
         k = {
-          "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+          "<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>",
           "Prev Diagnostic",
         },
         l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
