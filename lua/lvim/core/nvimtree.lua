@@ -31,7 +31,7 @@ function M.config()
         cursorline = true,
         debounce_delay = 15,
         side = "left",
-        preserve_window_proportions = false,
+        preserve_window_proportions = true,
         number = false,
         relativenumber = false,
         signcolumn = "yes",
@@ -335,6 +335,17 @@ function M.setup()
   end
 
   nvim_tree.setup(lvim.builtin.nvimtree.setup)
+
+  pcall(function()
+    local events = require "nvim-tree.events"
+    local view = require "nvim-tree.view"
+    events.subscribe(events.Event.Resize, function(new_size)
+      if type(new_size) == "number" and new_size > 5 then
+        view.View.width = new_size
+        lvim.builtin.nvimtree.setup.view.width = new_size
+      end
+    end)
+  end)
 
   if lvim.builtin.nvimtree.on_config_done then
     lvim.builtin.nvimtree.on_config_done(nvim_tree)
