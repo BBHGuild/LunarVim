@@ -47,9 +47,11 @@ local defaults = {
     ["]w"] = "<C-w>w",
     ["[w"] = "<C-w>W",
 
-    -- Buffer navigation (Shift-h/l and bracket navigation)
+    -- Buffer navigation (Shift-h/l, Ctrl-Tab, and bracket navigation)
     ["<S-l>"] = "<cmd>lua if pcall(vim.cmd, 'BufferLineCycleNext') then else vim.cmd('bnext') end<CR>",
     ["<S-h>"] = "<cmd>lua if pcall(vim.cmd, 'BufferLineCyclePrev') then else vim.cmd('bprevious') end<CR>",
+    ["<C-Tab>"] = "<cmd>lua if pcall(vim.cmd, 'BufferLineCycleNext') then else vim.cmd('bnext') end<CR>",
+    ["<C-S-Tab>"] = "<cmd>lua if pcall(vim.cmd, 'BufferLineCyclePrev') then else vim.cmd('bprevious') end<CR>",
     ["]b"] = ":bnext<CR>",
     ["[b"] = ":bprevious<CR>",
 
