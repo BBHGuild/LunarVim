@@ -159,6 +159,35 @@ function M.setup()
 
   -- Enable rounded borders in :LspInfo window.
   require("lspconfig.ui.windows").default_options.border = "rounded"
+
+  -- Neovim 0.10/0.11+ compatibility: ensure position_encoding is supplied for legacy callers
+  if vim.lsp and vim.lsp.util then
+    local util = vim.lsp.util
+    if util.symbols_to_items then
+      local orig_symbols_to_items = util.symbols_to_items
+      util.symbols_to_items = function(symbols, bufnr, position_encoding)
+        if position_encoding == nil then
+          bufnr = bufnr and vim._resolve_bufnr(bufnr) or vim.api.nvim_get_current_buf()
+          local clients = vim.lsp.get_clients { bufnr = bufnr }
+          position_encoding = (clients and clients[1] and clients[1].offset_encoding) or "utf-16"
+        end
+        return orig_symbols_to_items(symbols, bufnr, position_encoding)
+      end
+    end
+
+    if util.make_position_params then
+      local orig_make_position_params = util.make_position_params
+      util.make_position_params = function(window, position_encoding)
+        if position_encoding == nil then
+          local win = window or 0
+          local ok, buf = pcall(vim.api.nvim_win_get_buf, win)
+          local clients = ok and vim.lsp.get_clients { bufnr = buf } or {}
+          position_encoding = (clients and clients[1] and clients[1].offset_encoding) or "utf-16"
+        end
+        return orig_make_position_params(window, position_encoding)
+      end
+    end
+  end
 end
 
 return M
