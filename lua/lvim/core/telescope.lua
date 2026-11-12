@@ -6,6 +6,17 @@ local M = {}
 ---| "ivy"      # see `telescope.themes.get_ivy()`
 ---| "center"   # retain the default telescope theme
 
+local function paste_prompt()
+  local text = vim.fn.getreg "+"
+  if not text or text == "" then
+    text = vim.fn.getreg '"'
+  end
+  text = (text or ""):gsub("[\r\n]+", " "):gsub("^%s+", ""):gsub("%s+$", "")
+  if text ~= "" then
+    vim.api.nvim_put({ text }, "c", false, true)
+  end
+end
+
 function M.config()
   local actions = require("lvim.utils.modules").require_on_exported_call "telescope.actions"
   lvim.builtin.telescope = {
@@ -45,6 +56,8 @@ function M.config()
             actions.smart_send_to_qflist(...)
             actions.open_qflist(...)
           end,
+          ["<C-v>"] = paste_prompt,
+          ["<C-S-v>"] = paste_prompt,
           ["<CR>"] = actions.select_default,
         },
         n = {
@@ -129,6 +142,24 @@ function M.setup()
   end
 
   telescope.setup(lvim.builtin.telescope)
+
+  -- Collapse newlines when pasting into 1-line prompt buffers (e.g. TelescopePrompt)
+  if vim.paste and not vim._lvim_telescope_paste_wrapped then
+    vim._lvim_telescope_paste_wrapped = true
+    local orig_paste = vim.paste
+    vim.paste = function(lines, phase)
+      if vim.bo.filetype == "TelescopePrompt" or vim.bo.buftype == "prompt" then
+        if type(lines) == "table" then
+          local joined = table.concat(lines, " "):gsub("^%s+", ""):gsub("%s+$", "")
+          if joined == "" then
+            return true
+          end
+          lines = { joined }
+        end
+      end
+      return orig_paste(lines, phase)
+    end
+  end
 
   if lvim.builtin.project.active then
     pcall(function()
