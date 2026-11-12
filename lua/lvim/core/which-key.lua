@@ -208,7 +208,7 @@ M.config = function()
           "Checkout commit(for current file)",
         },
         d = {
-          "<cmd>Gitsigns diffthis HEAD<cr>",
+          "<cmd>lua require('lvim.core.gitsigns').toggle_diff('HEAD')<cr>",
           "Git Diff",
         },
       },
